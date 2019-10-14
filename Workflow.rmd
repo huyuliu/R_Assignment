@@ -1,0 +1,50 @@
+---
+title: "R_Assignment"
+author: "Elizabeth Glynne"
+date: "10/16/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+_RMD for R Assignment: This is the markdown file for my assignment. It will describe my general workflow for this project._
+
+### Link R and Github
+
+I created a repository on Github and then created a new project from Version control.
+
+## Part I: Data inspection & Data Processing
+### Step 1: Import Data
+
+I copied the data from the UNIX assignment into my R_Assignment folder using my local repositories. I then pushed them to my global repository and then pulled the repository through my Rstudio interface.
+
+Loading in the genotypes data:
+```{r}
+library(tidyverse)
+fang <- read_tsv(file = "fang_et_al_genotypes.txt", col_names = TRUE)
+```
+
+Loading in the SNPs data:
+```{r}
+library(tidyverse)
+snp <- read_tsv(file = "snp_position.txt")
+```
+
+### Step 2: Inspect Genotypes
+
+
+### Step 3: Inspect SNPs
+
+
+### Step X: Genotypes
+
+
+### Step X: SNPs
+
+
+## Part II: Data Visualization
+
+### SNPs per chromosom
+### Missing data and amount of heterozygosity
+### "Your own visualization
