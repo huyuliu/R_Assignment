@@ -20,22 +20,56 @@ I created a repository on Github and then created a new project from Version con
 I copied the data from the UNIX assignment into my R_Assignment folder using my local repositories. I then pushed them to my global repository and then pulled the repository through my Rstudio interface.
 
 Loading in the genotypes data:
-```{r}
+```{r message=FALSE, warning=FALSE, results=FALSE}
 library(tidyverse)
 fang <- read_tsv(file = "fang_et_al_genotypes.txt", col_names = TRUE)
 ```
 
 Loading in the SNPs data:
-```{r}
-library(tidyverse)
+```{r warning=FALSE, message=FALSE, results=FALSE}
 snp <- read_tsv(file = "snp_position.txt")
 ```
 
 ### Step 2: Inspect Genotypes
+View the data file:
+
+```{r}
+View(fang)
+```
+In viewing the data file, we can see that it is a table with headers. There are 2782 rows of data.
+
+This file is currently a list:
+```{r}
+typeof(fang)
+```
+This file has 986 variables:
+```{r}
+length(fang)
+```
+```{r results=FALSE}
+snp_attributes <- attributes(fang)
+snp_attributes$names
+snp_attributes$class
+snp_attributes$row.names
+```
 
 
 ### Step 3: Inspect SNPs
+View the data file:
 
+```{r}
+View(snp)
+```
+In viewing the data file, we can see that it is a table with headers. There are 983 rows of data.
+
+This file is currently a list:
+```{r}
+typeof(snp)
+```
+This file has 15 variables:
+```{r}
+length(snp)
+```
 
 ### Step X: Genotypes
 
