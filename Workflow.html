@@ -390,29 +390,49 @@ fang &lt;- read_tsv(file = &quot;fang_et_al_genotypes.txt&quot;, col_names = TRU
 <h3>Step 2: Inspect Genotypes</h3>
 <p>View the data file:</p>
 <pre class="r"><code>View(fang)</code></pre>
-<p>In viewing the data file, we can see that it is a table with headers. There are 2782 rows of data.</p>
+<p>In viewing the data file, we can see that it is a table with headers.</p>
 <p>This file is currently a list:</p>
 <pre class="r"><code>typeof(fang)</code></pre>
 <pre><code>## [1] &quot;list&quot;</code></pre>
-<p>This file has 986 variables:</p>
+<p>This file has 986 variables, with 2782 rows and 986 columns.</p>
 <pre class="r"><code>length(fang)</code></pre>
 <pre><code>## [1] 986</code></pre>
-<pre class="r"><code>snp_attributes &lt;- attributes(fang)
-snp_attributes$names
-snp_attributes$class
-snp_attributes$row.names</code></pre>
+<pre class="r"><code>dim(fang)</code></pre>
+<pre><code>## [1] 2782  986</code></pre>
+<p>By first storing the attributes of the genotype file as an object, I can further analyze each attribute of the list.</p>
+<pre class="r"><code>genotype_attributes &lt;- attributes(fang)
+length(genotype_attributes$names)
+length(genotype_attributes$class)
+length(genotype_attributes$row.names)
+typeof(genotype_attributes$names)
+typeof(genotype_attributes$row.names)
+typeof(genotype_attributes$class)
+genotype_attributes$class</code></pre>
+<p>We can see that the lengths of each attribute, how the names correspond to the number of columns (986) and the row names correspond to the number of rows (2782). However, the length of the classes (4) corresponds to the various components being a special table dataframe, table dataframe, table, and a data frame.</p>
 </div>
 <div id="step-3-inspect-snps" class="section level3">
 <h3>Step 3: Inspect SNPs</h3>
 <p>View the data file:</p>
 <pre class="r"><code>View(snp)</code></pre>
-<p>In viewing the data file, we can see that it is a table with headers. There are 983 rows of data.</p>
+<p>In viewing the data file, we can see that it is a table with headers.</p>
 <p>This file is currently a list:</p>
 <pre class="r"><code>typeof(snp)</code></pre>
 <pre><code>## [1] &quot;list&quot;</code></pre>
-<p>This file has 15 variables:</p>
+<p>This file has 15 variables, with 983 rows and 15 columns of data.</p>
 <pre class="r"><code>length(snp)</code></pre>
 <pre><code>## [1] 15</code></pre>
+<pre class="r"><code>dim(snp)</code></pre>
+<pre><code>## [1] 983  15</code></pre>
+<p>By first storing the attributes of the snps file as an object, I can further analyze each attribute of the list.</p>
+<pre class="r"><code>snp_attributes &lt;- attributes(snp)
+length(snp_attributes$names)
+length(snp_attributes$class)
+length(snp_attributes$row.names)
+typeof(snp_attributes$names)
+typeof(snp_attributes$row.names)
+typeof(snp_attributes$class)
+snp_attributes$class</code></pre>
+<p>We can see that the lengths of each attribute, how the names correspond to the number of columns (15) and the row names correspond to the number of rows (983). However, the length of the classes (4) corresponds to the various components being a special table dataframe, table dataframe, table, and a data frame.</p>
 </div>
 <div id="step-x-genotypes" class="section level3">
 <h3>Step X: Genotypes</h3>

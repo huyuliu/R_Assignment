@@ -36,22 +36,29 @@ View the data file:
 ```{r}
 View(fang)
 ```
-In viewing the data file, we can see that it is a table with headers. There are 2782 rows of data.
+In viewing the data file, we can see that it is a table with headers. 
 
 This file is currently a list:
 ```{r}
 typeof(fang)
 ```
-This file has 986 variables:
+This file has 986 variables, with 2782 rows and 986 columns.
 ```{r}
 length(fang)
+dim(fang)
 ```
+By first storing the attributes of the genotype file as an object, I can further analyze each attribute of the list.  
 ```{r results=FALSE}
-snp_attributes <- attributes(fang)
-snp_attributes$names
-snp_attributes$class
-snp_attributes$row.names
+genotype_attributes <- attributes(fang)
+length(genotype_attributes$names)
+length(genotype_attributes$class)
+length(genotype_attributes$row.names)
+typeof(genotype_attributes$names)
+typeof(genotype_attributes$row.names)
+typeof(genotype_attributes$class)
+genotype_attributes$class
 ```
+We can see that the lengths of each attribute, how the names correspond to the number of columns (986) and the row names correspond to the number of rows (2782). However, the length of the classes (4) corresponds to the various components being a special table dataframe, table dataframe, table, and a data frame.
 
 
 ### Step 3: Inspect SNPs
@@ -60,18 +67,32 @@ View the data file:
 ```{r}
 View(snp)
 ```
-In viewing the data file, we can see that it is a table with headers. There are 983 rows of data.
+In viewing the data file, we can see that it is a table with headers. 
 
 This file is currently a list:
 ```{r}
 typeof(snp)
 ```
-This file has 15 variables:
+This file has 15 variables, with 983 rows and 15 columns of data.
 ```{r}
 length(snp)
+dim(snp)
 ```
+By first storing the attributes of the snps file as an object, I can further analyze each attribute of the list.  
+```{r results=FALSE}
+snp_attributes <- attributes(snp)
+length(snp_attributes$names)
+length(snp_attributes$class)
+length(snp_attributes$row.names)
+typeof(snp_attributes$names)
+typeof(snp_attributes$row.names)
+typeof(snp_attributes$class)
+snp_attributes$class
+```
+We can see that the lengths of each attribute, how the names correspond to the number of columns (15) and the row names correspond to the number of rows (983). However, the length of the classes (4) corresponds to the various components being a special table dataframe, table dataframe, table, and a data frame.
 
-### Step X: Genotypes
+
+### Step 4: Genotypes
 
 
 ### Step X: SNPs
