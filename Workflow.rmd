@@ -14,7 +14,7 @@ _RMD for R Assignment: This is the markdown file for my assignment. It will desc
 
 I created a repository on Github and then created a new project from Version control.
 
-## Part I: Data inspection & Data Processing
+## Part I: Data inspection
 ### Step 1: Import Data
 
 I copied the data from the UNIX assignment into my R_Assignment folder using my local repositories. I then pushed them to my global repository and then pulled the repository through my Rstudio interface.
@@ -92,13 +92,38 @@ snp_attributes$class
 We can see that the lengths of each attribute, how the names correspond to the number of columns (15) and the row names correspond to the number of rows (983). However, the length of the classes (4) corresponds to the various components being a special table dataframe, table dataframe, table, and a data frame.
 
 
-### Step 4: Genotypes
+## Part II: Data Processing
+### Step 1: Prep files
+Sort the SNPs by ID
+```{r}
+library(tidyr)
+library(tidyverse)
+sorted_snp<-arrange(snp, SNP_ID)
+```
+
+### Step 1: Define groups
+Pull out Maize (ZMMIL, ZMMLR, and ZMMMR)
+```{r}
+maize<- filter(fang, Group %in% c("ZMMIL", "ZMMLR", "ZMMMR"))
+```
+Pull out Teosinte (ZMPBA, ZMPIL, ZMPJA)
+```{r}
+teosinte<- filter(fang, Group %in% c("ZMPBA", "ZMPIL", "ZMPJA"))
+```
+
+### Step 2: Transpose file Maize and Teosinte
+```{r}
+Tmaize<- as.data.frame(t(maize))
+Tteosinte <-as.data.frame(t(teosinte))
+```
+
+### Step 3: Join SNP and Genotype files for both Maize and Teosinte
+```{r}
+
+```
 
 
-### Step X: SNPs
-
-
-## Part II: Data Visualization
+## Part III: Data Visualization
 
 ### SNPs per chromosom
 ### Missing data and amount of heterozygosity
