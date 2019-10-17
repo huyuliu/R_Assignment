@@ -97,7 +97,6 @@ We can see that the lengths of each attribute, how the names correspond to the n
 Sort the SNPs by ID
 ```{r}
 library(tidyr)
-library(tidyverse)
 sorted_snp<-arrange(snp, SNP_ID)
 ```
 
@@ -106,7 +105,9 @@ Pull out Maize (ZMMIL, ZMMLR, and ZMMMR)
 ```{r}
 maize<- filter(fang, Group %in% c("ZMMIL", "ZMMLR", "ZMMMR"))
 ```
+
 Pull out Teosinte (ZMPBA, ZMPIL, ZMPJA)
+
 ```{r}
 teosinte<- filter(fang, Group %in% c("ZMPBA", "ZMPIL", "ZMPJA"))
 ```
@@ -118,6 +119,123 @@ Tteosinte <-as.data.frame(t(teosinte))
 ```
 
 ### Step 3: Join SNP and Genotype files for both Maize and Teosinte
+
+Join together the files into a new table, with the first three columns from the sorted_snp file (SNP_ID, Chromosome, and Position). This will be used with the creation of the next two files. 
+
+```{r}
+join_start<-bind_cols(data.frame(SNP_ID = sorted_snp$SNP_ID),data.frame(Chromosome = sorted_snp$Chromosome),data.frame(Position = sorted_snp$Position))
+```
+### Step 4: Create the 10 chromosome files for Maize
+
+Change dataframe so the row names are now in a column called SNP_ID. 
+Join together the Tmaize file with the join_start file, resulting in the join_maize file which will be used for later analysis. 
+
+```{r}
+Tmaize<-tibble::rownames_to_column(Tmaize, "SNP_ID") 
+join_maize <- full_join(join_start, Tmaize, by= "SNP_ID")
+```
+
+Sort the join_maize file into 10 new data frames, one for each chromosome. Order the files based on the increasing position values:
+
+```{r}
+df.names <- paste("maize_chrom", 1:10,sep="_")
+for (i in 1:10) {
+  d.frame <- filter(join_maize, Chromosome == i)
+  arrange(d.frame, Position)    
+  assign(df.names[i],d.frame)
+}
+
+```
+
+Change the missing data to "?" in the data frame:
+```{r}
+
+```
+
+Sort the join_maize file into 10 new data frames, one for each chromosome. Order the files based on the decreasing position values:
+```{r, include=FALSE}
+df.names <- paste("maize_chrom_de", 1:10,sep="_")
+
+for (i in 1:10) {
+  d.frame <- filter(join_maize, Chromosome == i)
+  arrange(d.frame, Position, decreasing = FALSE)    
+  assign(df.names[i],d.frame)
+}
+```
+```
+Change the missing data from "?" to "-":
+
+
+Order the files based on decreasing position values:
+
+
+A file with all SNPs with unknown positions in the genome:
+
+
+A file with all SNPs with multiple positions in the genome:
+
+
+### Step 5: Create the 10 chromosome files for Teosinte
+Change dataframe so the row names are now in a column called SNP_ID.
+Join together the Tteosinte file with the join_start file, resulting in
+the join_teosinte file which will be used for later analysis. 
+
+```{r}
+Tteosinte<-tibble::rownames_to_column(Tteosinte, "SNP_ID") 
+join_teosinte <- full_join(join_start, Tteosinte, by= "SNP_ID")
+```
+
+
+
+Sort the join_teosinte file into 10 new data frames, one for each chromosome.Order the files based on the increasing position values:
+
+```{r}
+df.names <- paste("teosinte_chrom", 1:10,sep="_")
+for (i in 1:10) {
+  d.frame <- filter(join_teosinte, Chromosome == i)
+  arrange(d.frame, Position)    
+  assign(df.names[i],d.frame)
+}
+```
+
+
+Change the missing data to "?" in the data frame:
+```{r}
+library(plyr)
+
+```
+
+Sort the join_teosinte files to 10 new data frames, one for each chromosome. Order the files based on the decreasing position values:
+
+```{r}
+df.names <- paste("teosinte_chrom_de", 1:10,sep="_")
+for (i in 1:10) {
+  d.frame <- filter(join_teosinte, Chromosome == i)
+  arrange(d.frame, Position, decreasing = FALSE)    
+  assign(df.names[i],d.frame)
+}
+
+```
+
+Change the missing data from "?" to "-":
+```{r}
+
+```
+
+
+Order the files based on decreasing position values:
+```{r}
+
+```
+
+
+A file with all SNPs with unknown positions in the genome:
+```{r}
+
+
+```
+
+A file with all SNPs with multiple positions in the genome:
 ```{r}
 
 ```
