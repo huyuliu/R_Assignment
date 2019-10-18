@@ -2,7 +2,9 @@
 title: "R_Assignment"
 author: "Elizabeth Glynne"
 date: "10/16/2019"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -33,22 +35,22 @@ snp <- read_tsv(file = "snp_position.txt")
 ### Step 2: Inspect Genotypes
 View the data file:
 
-```{r}
+```{r, message=FALSE, warning=FALSE, results=FALSE}
 View(fang)
 ```
 In viewing the data file, we can see that it is a table with headers. 
 
 This file is currently a list:
-```{r}
+```{r, message=FALSE, warning=FALSE, results=FALSE}
 typeof(fang)
 ```
 This file has 986 variables, with 2782 rows and 986 columns.
-```{r}
+```{r, message=FALSE, warning=FALSE, results=FALSE}
 length(fang)
 dim(fang)
 ```
 By first storing the attributes of the genotype file as an object, I can further analyze each attribute of the list.  
-```{r results=FALSE}
+```{r, results=FALSE}
 genotype_attributes <- attributes(fang)
 length(genotype_attributes$names)
 length(genotype_attributes$class)
@@ -64,7 +66,7 @@ We can see that the lengths of each attribute, how the names correspond to the n
 ### Step 3: Inspect SNPs
 View the data file:
 
-```{r}
+```{r, message=FALSE, warning=FALSE, results=FALSE}
 View(snp)
 ```
 In viewing the data file, we can see that it is a table with headers. 
@@ -125,57 +127,138 @@ Join together the files into a new table, with the first three columns from the 
 ```{r}
 join_start<-bind_cols(data.frame(SNP_ID = sorted_snp$SNP_ID),data.frame(Chromosome = sorted_snp$Chromosome),data.frame(Position = sorted_snp$Position))
 ```
-### Step 4: Create the 10 chromosome files for Maize
+### Step 4: Create the 10 chromosome files for Maize + 1 for unknown and 1 for multiple
 
 Change dataframe so the row names are now in a column called SNP_ID. 
-Join together the Tmaize file with the join_start file, resulting in the join_maize file which will be used for later analysis. 
+Join together the Tmaize file with the join_start file, resulting in the join_maize file which will be used for later. 
 
-```{r}
+```{r, include=FALSE, message=FALSE}
 Tmaize<-tibble::rownames_to_column(Tmaize, "SNP_ID") 
 join_maize <- full_join(join_start, Tmaize, by= "SNP_ID")
+
 ```
 
-Sort the join_maize file into 10 new data frames, one for each chromosome. Order the files based on the increasing position values:
+
+Create join_maize1 file, changing "?/?" to "?". Also, create join_maize2 file, changing "?" to '-".
+```{r}
+join_maize <- data.frame(lapply(join_maize, as.character),
+                            stringsAsFactors=FALSE)
+join_maize1 <- data.frame(sapply(join_maize,function(x) 
+                  {x <- gsub("?/?","?",x,fixed=TRUE)}))
+join_maize2 <- data.frame(sapply(join_maize1,function(x) 
+                  {x <- gsub("?","-",x,fixed=TRUE)}))
+
+```
+
+#### Part i: Create file with unknown data
+Create and write a file with all SNPs with unknown positions in the genome:
 
 ```{r}
+maize_unknown <- filter(join_maize, Chromosome == "unknown")
+write.table(maize_unknown,"m_Chrom_Unknown", sep="\t", row.names=FALSE)
+```
+
+#### Part ii: Create file with multiple data
+Create and write a file with all SNPs with multiple positions in the genome:
+```{r}
+maize_multiple <- filter(join_maize, Chromosome == "multiple")
+write.table(maize_multiple,"m_Chrom_Multiple", sep="\t", row.names=FALSE)
+```
+
+#### Part iii: Create a file for each chromosome with positions in increasing order and missing data denoted as "?"
+
+Sort the join_maize file into 10 new data frames, one for each chromosome:
+```{r, results=FALSE}
 df.names <- paste("maize_chrom", 1:10,sep="_")
 for (i in 1:10) {
-  d.frame <- filter(join_maize, Chromosome == i)
-  arrange(d.frame, Position)    
+  d.frame <- filter(join_maize1, Chromosome == i)
   assign(df.names[i],d.frame)
 }
+```
+
+Order the files based on the increasing postion values:
+```{r, messages=FALSE}
+maize_chrom_1_s<- maize_chrom_1[order(as.numeric(as.character(maize_chrom_1$Position))),]
+maize_chrom_2_s<- maize_chrom_2[order(as.numeric(as.character(maize_chrom_2$Position))),]
+maize_chrom_3_s<- maize_chrom_3[order(as.numeric(as.character(maize_chrom_3$Position))),]
+maize_chrom_4_s<- maize_chrom_4[order(as.numeric(as.character(maize_chrom_4$Position))),]
+maize_chrom_5_s<- maize_chrom_5[order(as.numeric(as.character(maize_chrom_5$Position))),]
+maize_chrom_6_s<- maize_chrom_6[order(as.numeric(as.character(maize_chrom_6$Position))),]
+maize_chrom_7_s<- maize_chrom_7[order(as.numeric(as.character(maize_chrom_7$Position))),]
+maize_chrom_8_s<- maize_chrom_8[order(as.numeric(as.character(maize_chrom_8$Position))),]
+maize_chrom_9_s<- maize_chrom_9[order(as.numeric(as.character(maize_chrom_9$Position))),]
+maize_chrom_10_s<- maize_chrom_10[order(as.numeric(as.character(maize_chrom_10$Position))),]
 
 ```
 
-Change the missing data to "?" in the data frame:
+Write files:
 ```{r}
+write.table(maize_chrom_1_s,"m_Chrom1", sep="\t", row.names=FALSE)
+write.table(maize_chrom_2_s,"m_Chrom2", sep="\t", row.names=FALSE)
+write.table(maize_chrom_3_s,"m_Chrom3", sep="\t", row.names=FALSE)
+write.table(maize_chrom_4_s,"m_Chrom4", sep="\t", row.names=FALSE)
+write.table(maize_chrom_5_s,"m_Chrom5", sep="\t", row.names=FALSE)
+write.table(maize_chrom_6_s,"m_Chrom6", sep="\t", row.names=FALSE)
+write.table(maize_chrom_7_s,"m_Chrom7", sep="\t", row.names=FALSE)
+write.table(maize_chrom_8_s,"m_Chrom8", sep="\t", row.names=FALSE)
+write.table(maize_chrom_9_s,"m_Chrom9", sep="\t", row.names=FALSE)
+write.table(maize_chrom_10_s,"m_Chrom10", sep="\t", row.names=FALSE)
 
 ```
 
-Sort the join_maize file into 10 new data frames, one for each chromosome. Order the files based on the decreasing position values:
-```{r, include=FALSE}
-df.names <- paste("maize_chrom_de", 1:10,sep="_")
+#### Part iv: Create a file for each chromosome with positions in decreasing order and missing data denoted as "-"
+Sort the join_maize file into 10 new data frames, one for each chromosome. 
 
+```{r}
+df.names <- paste("maize_chrom_de", 1:10,sep="_")
 for (i in 1:10) {
-  d.frame <- filter(join_maize, Chromosome == i)
-  arrange(d.frame, Position, decreasing = FALSE)    
+  d.frame <- filter(join_maize2, Chromosome == i)
   assign(df.names[i],d.frame)
 }
 ```
+
+Order the files based on the decreasing position values:
+
+```{r}
+maize_chrom_de_1<- maize_chrom_de_1[order(as.numeric(as.character(maize_chrom_de_1$Position)), decreasing=TRUE),]
+
+maize_chrom_de_2<- maize_chrom_de_2[order(as.numeric(as.character(maize_chrom_de_2$Position)), decreasing=TRUE),]
+
+maize_chrom_de_3<- maize_chrom_de_3[order(as.numeric(as.character(maize_chrom_de_3$Position)), decreasing=TRUE),]
+
+maize_chrom_de_4<- maize_chrom_de_4[order(as.numeric(as.character(maize_chrom_de_4$Position)), decreasing=TRUE),]
+
+maize_chrom_de_5<- maize_chrom_de_5[order(as.numeric(as.character(maize_chrom_de_5$Position)), decreasing=TRUE),]
+
+maize_chrom_de_6<- maize_chrom_de_6[order(as.numeric(as.character(maize_chrom_de_6$Position)), decreasing=TRUE),]
+
+maize_chrom_de_7<- maize_chrom_de_7[order(as.numeric(as.character(maize_chrom_de_7$Position)), decreasing=TRUE),]
+
+maize_chrom_de_8<- maize_chrom_de_8[order(as.numeric(as.character(maize_chrom_de_8$Position)), decreasing=TRUE),]
+
+maize_chrom_de_9<- maize_chrom_de_9[order(as.numeric(as.character(maize_chrom_de_9$Position)), decreasing=TRUE),]
+
+maize_chrom_de_10<- maize_chrom_de_10[order(as.numeric(as.character(maize_chrom_de_10$Position)), decreasing=TRUE),]
+
 ```
-Change the missing data from "?" to "-":
+
+Write files
+```{r}
+write.table(maize_chrom_de_1,"m_Chrom1_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_2,"m_Chrom2_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_3,"m_Chrom3_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_4,"m_Chrom4_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_5,"m_Chrom5_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_6,"m_Chrom6_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_7,"m_Chrom7_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_8,"m_Chrom8_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_9,"m_Chrom9_de", sep="\t", row.names=FALSE)
+write.table(maize_chrom_de_10,"m_Chrom10_de", sep="\t", row.names=FALSE)
+
+```
 
 
-Order the files based on decreasing position values:
-
-
-A file with all SNPs with unknown positions in the genome:
-
-
-A file with all SNPs with multiple positions in the genome:
-
-
-### Step 5: Create the 10 chromosome files for Teosinte
+### Step 5: Create the 10 chromosome files for Teosinte + 1 for unknown and 1 for multiple
 Change dataframe so the row names are now in a column called SNP_ID.
 Join together the Tteosinte file with the join_start file, resulting in
 the join_teosinte file which will be used for later analysis. 
@@ -186,57 +269,131 @@ join_teosinte <- full_join(join_start, Tteosinte, by= "SNP_ID")
 ```
 
 
+Create join_teosinte1 file, changing "?/?" to "?". Also, create join_teosinte2 file, changing "?" to '-".
+```{r}
+join_teosinte <- data.frame(lapply(join_teosinte, as.character),
+                            stringsAsFactors=FALSE)
+join_teosinte1 <- data.frame(sapply(join_teosinte,function(x) 
+                  {x <- gsub("?/?","?",x,fixed=TRUE)}))
+join_teosinte2 <- data.frame(sapply(join_teosinte1,function(x) 
+                  {x <- gsub("?","-",x,fixed=TRUE)}))
 
-Sort the join_teosinte file into 10 new data frames, one for each chromosome.Order the files based on the increasing position values:
+```
+
+#### Part i: Create file with unknown data
+Create and write a file with all SNPs with unknown positions in the genome:
 
 ```{r}
+teosinte_unknown <- filter(join_teosinte, Chromosome == "unknown")
+write.table(teosinte_unknown,"t_Chrom_Unknown", sep="\t", row.names=FALSE)
+```
+
+#### Part ii: Create file with multiple data
+Create and write a file with all SNPs with multiple positions in the genome:
+```{r}
+teosinte_multiple <- filter(join_teosinte, Chromosome == "multiple")
+write.table(teosinte_multiple,"m_Chrom_Multiple", sep="\t", row.names=FALSE)
+```
+
+#### Part iii: Create a file for each chromosome with positions in increasing order and missing data denoted as "?"
+
+Sort the join_teosinte file into 10 new data frames, one for each chromosome:
+```{r, results=FALSE}
 df.names <- paste("teosinte_chrom", 1:10,sep="_")
 for (i in 1:10) {
-  d.frame <- filter(join_teosinte, Chromosome == i)
-  arrange(d.frame, Position)    
+  d.frame <- filter(join_teosinte1, Chromosome == i)
   assign(df.names[i],d.frame)
 }
 ```
 
+Order the files based on the increasing postion values:
+```{r, messages=FALSE}
+teosinte_chrom_1_s<-teosinte_chrom_1[order(as.numeric(as.character(teosinte_chrom_1$Position))),]
 
-Change the missing data to "?" in the data frame:
-```{r}
-library(plyr)
+teosinte_chrom_2_s<-teosinte_chrom_2[order(as.numeric(as.character(teosinte_chrom_2$Position))),]
+
+teosinte_chrom_3_s<-teosinte_chrom_3[order(as.numeric(as.character(teosinte_chrom_3$Position))),]
+
+teosinte_chrom_4_s<-teosinte_chrom_4[order(as.numeric(as.character(teosinte_chrom_4$Position))),]
+
+teosinte_chrom_5_s<-teosinte_chrom_5[order(as.numeric(as.character(teosinte_chrom_5$Position))),]
+
+teosinte_chrom_6_s<-teosinte_chrom_6[order(as.numeric(as.character(teosinte_chrom_6$Position))),]
+
+teosinte_chrom_7_s<-teosinte_chrom_7[order(as.numeric(as.character(teosinte_chrom_7$Position))),]
+
+teosinte_chrom_8_s<-teosinte_chrom_8[order(as.numeric(as.character(teosinte_chrom_8$Position))),]
+
+teosinte_chrom_9_s<-teosinte_chrom_9[order(as.numeric(as.character(teosinte_chrom_9$Position))),]
+
+teosinte_chrom_10_s<-teosinte_chrom_10[order(as.numeric(as.character(teosinte_chrom_10$Position))),]
+
 
 ```
 
-Sort the join_teosinte files to 10 new data frames, one for each chromosome. Order the files based on the decreasing position values:
+Write files:
+```{r}
+write.table(teosinte_chrom_1_s,"t_Chrom1", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_2_s,"t_Chrom2", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_3_s,"t_Chrom3", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_4_s,"t_Chrom4", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_5_s,"t_Chrom5", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_6_s,"t_Chrom6", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_7_s,"t_Chrom7", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_8_s,"t_Chrom8", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_9_s,"t_Chrom9", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_10_s,"t_Chrom10", sep="\t", row.names=FALSE)
+
+```
+
+#### Part iv: Create a file for each chromosome with positions in decreasing order and missing data denoted as "-"
+Sort the join_maize file into 10 new data frames, one for each chromosome. 
 
 ```{r}
 df.names <- paste("teosinte_chrom_de", 1:10,sep="_")
 for (i in 1:10) {
-  d.frame <- filter(join_teosinte, Chromosome == i)
-  arrange(d.frame, Position, decreasing = FALSE)    
+  d.frame <- filter(join_teosinte2, Chromosome == i)
   assign(df.names[i],d.frame)
 }
+```
+
+Order the files based on the decreasing position values:
+
+```{r}
+teosinte_chrom_de_1<- teosinte_chrom_de_1[order(as.numeric(as.character(teosinte_chrom_de_1$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_2<- teosinte_chrom_de_2[order(as.numeric(as.character(teosinte_chrom_de_2$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_3<- teosinte_chrom_de_3[order(as.numeric(as.character(teosinte_chrom_de_3$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_4<- teosinte_chrom_de_4[order(as.numeric(as.character(teosinte_chrom_de_4$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_5<- teosinte_chrom_de_5[order(as.numeric(as.character(teosinte_chrom_de_5$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_6<- teosinte_chrom_de_6[order(as.numeric(as.character(teosinte_chrom_de_6$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_7<- teosinte_chrom_de_7[order(as.numeric(as.character(teosinte_chrom_de_7$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_8<- teosinte_chrom_de_8[order(as.numeric(as.character(teosinte_chrom_de_8$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_9<- teosinte_chrom_de_9[order(as.numeric(as.character(teosinte_chrom_de_9$Position)), decreasing=TRUE),]
+
+teosinte_chrom_de_10<- teosinte_chrom_de_10[order(as.numeric(as.character(teosinte_chrom_de_10$Position)), decreasing=TRUE),]
 
 ```
 
-Change the missing data from "?" to "-":
+Write files
 ```{r}
-
-```
-
-
-Order the files based on decreasing position values:
-```{r}
-
-```
-
-
-A file with all SNPs with unknown positions in the genome:
-```{r}
-
-
-```
-
-A file with all SNPs with multiple positions in the genome:
-```{r}
+write.table(teosinte_chrom_de_1,"t_Chrom1_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_2,"t_Chrom2_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_3,"t_Chrom3_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_4,"t_Chrom4_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_5,"t_Chrom5_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_6,"t_Chrom6_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_7,"t_Chrom7_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_8,"t_Chrom8_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_9,"t_Chrom9_de", sep="\t", row.names=FALSE)
+write.table(teosinte_chrom_de_10,"t_Chrom10_de", sep="\t", row.names=FALSE)
 
 ```
 
@@ -244,5 +401,10 @@ A file with all SNPs with multiple positions in the genome:
 ## Part III: Data Visualization
 
 ### SNPs per chromosom
+
+
 ### Missing data and amount of heterozygosity
+
+
+
 ### "Your own visualization
