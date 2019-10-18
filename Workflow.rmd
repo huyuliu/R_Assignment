@@ -417,10 +417,10 @@ ggplot(data = plot_teosinte) + geom_point(mapping=aes(x=SNP_ID, y=Chromosome, co
 ```
 
 I colored it by the chromosome color. I know that it does not add additional layer of data interpretation, but it helps me interpret the data without making additional errors. As a dyslexic individual, this helps me clearly see the distribution of each chromosome and helps to keep my eyes from jumping lines, misinterpreting the data. 
+I also can't get the theme(axis.title.x=element_blank()) to work to remove the underlying charts. 
  
 
-### Missing data and amount of heterozygosity
-
+### Uknown Data
 
 
 ### "Your own visualization
@@ -435,3 +435,5 @@ I colored it by the chromosome color. I know that it does not add additional lay
   - I am also fighting an error in my R markdown file saying it won't execute based on errors from line 156-183. I have tried rectifying this multiple times but have not been able to figure out why. 
   
   - I am still with grasping the vocabulary with what is a vector, object, list, string, character, etc., and when to use them appropriately for efficient manners. This is an area that I could still use improvement on.
+
+  - I ran out of time now. I can't finish the visualization part. I want to make sure this gets to reviewers and will practice on this after I am done colleting data this weekend. 

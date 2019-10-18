@@ -1,0 +1,46 @@
+---
+title: "Liu_review"
+author: "Huyu Liu"
+date: "10/21/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Liu Review
+
+This file is Huyu Liu's review of Hazinia's R assignment.
+
+## Part II: Data Processing
+
+### Step 4
+
+When change "?/?" to "-", it can be done in one step directly instead of two.
+
+#### Part iii
+
+The order and write file step can be writen into `for` loop.
+
+#### Part iv
+
+Same problem with "Part iii".
+
+### Step 5
+
+Same problem with "Step 4".
+
+## Part III: Data Visualization
+
+### SNPs per chromosome
+
+x axis need to be adjusted with `theme(axis.text.x = element_text(vjust =  , hjust =  , angle =  ))` to deal with the overlap of the text.
+
+And chromosomes are not in order.
+
+
+### Uknown Data
+### "Your own visualization
+Unfinished, no codes exist when I review.
+
