@@ -345,16 +345,17 @@ be used with the creation of the next two files.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{step-4-create-the-10-chromosome-files-for-maize}{%
-\subsubsection{Step 4: Create the 10 chromosome files for
-Maize}\label{step-4-create-the-10-chromosome-files-for-maize}}
+\hypertarget{step-4-create-the-10-chromosome-files-for-maize-1-for-unknown-and-1-for-multiple}{%
+\subsubsection{Step 4: Create the 10 chromosome files for Maize + 1 for
+unknown and 1 for
+multiple}\label{step-4-create-the-10-chromosome-files-for-maize-1-for-unknown-and-1-for-multiple}}
 
 Change dataframe so the row names are now in a column called SNP\_ID.
 Join together the Tmaize file with the join\_start file, resulting in
 the join\_maize file which will be used for later.
 
-Create join\_maize1 file, changing ``?/?'' to ``?''. Create join\_maize2
-file, changing ``?'' to '-".
+Create join\_maize1 file, changing ``?/?'' to ``?''. Also, create
+join\_maize2 file, changing ``?'' to '-".
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -367,13 +368,41 @@ file, changing ``?'' to '-".
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{i-create-a-file-for-each-chromosome-with-positions-in-increasing-order-and-missing-data-denoted-as}{%
-\paragraph{i: Create a file for each chromosome with positions in
+\hypertarget{part-i-create-file-with-unknown-data}{%
+\paragraph{Part i: Create file with unknown
+data}\label{part-i-create-file-with-unknown-data}}
+
+Create and write a file with all SNPs with unknown positions in the
+genome:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_unknown <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_maize, Chromosome }\OperatorTok{==}\StringTok{ "unknown"}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_unknown,}\StringTok{"m_Chrom_Unknown"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-ii-create-file-with-multiple-data}{%
+\paragraph{Part ii: Create file with multiple
+data}\label{part-ii-create-file-with-multiple-data}}
+
+Create and write a file with all SNPs with multiple positions in the
+genome:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_multiple <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_maize, Chromosome }\OperatorTok{==}\StringTok{ "multiple"}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_multiple,}\StringTok{"m_Chrom_Multiple"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-iii-create-a-file-for-each-chromosome-with-positions-in-increasing-order-and-missing-data-denoted-as}{%
+\paragraph{Part iii: Create a file for each chromosome with positions in
 increasing order and missing data denoted as
-``?''}\label{i-create-a-file-for-each-chromosome-with-positions-in-increasing-order-and-missing-data-denoted-as}}
+``?''}\label{part-iii-create-a-file-for-each-chromosome-with-positions-in-increasing-order-and-missing-data-denoted-as}}
 
 Sort the join\_maize file into 10 new data frames, one for each
-chromosome. Order the files based on the increasing position values:
+chromosome:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -452,10 +481,27 @@ Order the files based on the increasing postion values:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{ii-create-a-file-for-each-chromosome-with-positions-in-decreasing-order-and-missing-data-denoted-as--}{%
-\paragraph{ii: Create a file for each chromosome with positions in
+Write files:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{1}\NormalTok{_s,}\StringTok{"m_Chrom1"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{2}\NormalTok{_s,}\StringTok{"m_Chrom2"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{3}\NormalTok{_s,}\StringTok{"m_Chrom3"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{4}\NormalTok{_s,}\StringTok{"m_Chrom4"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{5}\NormalTok{_s,}\StringTok{"m_Chrom5"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{6}\NormalTok{_s,}\StringTok{"m_Chrom6"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{7}\NormalTok{_s,}\StringTok{"m_Chrom7"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{8}\NormalTok{_s,}\StringTok{"m_Chrom8"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{9}\NormalTok{_s,}\StringTok{"m_Chrom9"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_}\DecValTok{10}\NormalTok{_s,}\StringTok{"m_Chrom10"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-iv-create-a-file-for-each-chromosome-with-positions-in-decreasing-order-and-missing-data-denoted-as--}{%
+\paragraph{Part iv: Create a file for each chromosome with positions in
 decreasing order and missing data denoted as
-``-''}\label{ii-create-a-file-for-each-chromosome-with-positions-in-decreasing-order-and-missing-data-denoted-as--}}
+``-''}\label{part-iv-create-a-file-for-each-chromosome-with-positions-in-decreasing-order-and-missing-data-denoted-as--}}
 
 Sort the join\_maize file into 10 new data frames, one for each
 chromosome.
@@ -472,13 +518,96 @@ chromosome.
 
 Order the files based on the decreasing position values:
 
-A file with all SNPs with unknown positions in the genome:
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_chrom_de_}\DecValTok{1}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{1}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{1}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
 
-A file with all SNPs with multiple positions in the genome:
+\NormalTok{maize_chrom_de_}\DecValTok{2}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{2}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{2}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{step-5-create-the-10-chromosome-files-for-teosinte}{%
-\subsubsection{Step 5: Create the 10 chromosome files for
-Teosinte}\label{step-5-create-the-10-chromosome-files-for-teosinte}}
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(maize_chrom_de_2$Position)),
+## decreasing = TRUE): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_chrom_de_}\DecValTok{3}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{3}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{3}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+
+\NormalTok{maize_chrom_de_}\DecValTok{4}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{4}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{4}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(maize_chrom_de_4$Position)),
+## decreasing = TRUE): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_chrom_de_}\DecValTok{5}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{5}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{5}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+
+\NormalTok{maize_chrom_de_}\DecValTok{6}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{6}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{6}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(maize_chrom_de_6$Position)),
+## decreasing = TRUE): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_chrom_de_}\DecValTok{7}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{7}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{7}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(maize_chrom_de_7$Position)),
+## decreasing = TRUE): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_chrom_de_}\DecValTok{8}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{8}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{8}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+
+\NormalTok{maize_chrom_de_}\DecValTok{9}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{9}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{9}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(maize_chrom_de_9$Position)),
+## decreasing = TRUE): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{maize_chrom_de_}\DecValTok{10}\NormalTok{<-}\StringTok{ }\NormalTok{maize_chrom_de_}\DecValTok{10}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(maize_chrom_de_}\DecValTok{10}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+Write files
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{1}\NormalTok{,}\StringTok{"m_Chrom1_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{2}\NormalTok{,}\StringTok{"m_Chrom2_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{3}\NormalTok{,}\StringTok{"m_Chrom3_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{4}\NormalTok{,}\StringTok{"m_Chrom4_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{5}\NormalTok{,}\StringTok{"m_Chrom5_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{6}\NormalTok{,}\StringTok{"m_Chrom6_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{7}\NormalTok{,}\StringTok{"m_Chrom7_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{8}\NormalTok{,}\StringTok{"m_Chrom8_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{9}\NormalTok{,}\StringTok{"m_Chrom9_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(maize_chrom_de_}\DecValTok{10}\NormalTok{,}\StringTok{"m_Chrom10_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{step-5-create-the-10-chromosome-files-for-teosinte-1-for-unknown-and-1-for-multiple}{%
+\subsubsection{Step 5: Create the 10 chromosome files for Teosinte + 1
+for unknown and 1 for
+multiple}\label{step-5-create-the-10-chromosome-files-for-teosinte-1-for-unknown-and-1-for-multiple}}
 
 Change dataframe so the row names are now in a column called SNP\_ID.
 Join together the Tteosinte file with the join\_start file, resulting in
@@ -496,83 +625,259 @@ the join\_teosinte file which will be used for later analysis.
 ## character vector
 \end{verbatim}
 
+Create join\_teosinte1 file, changing ``?/?'' to ``?''. Also, create
+join\_teosinte2 file, changing ``?'' to '-".
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{join_teosinte <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{lapply}\NormalTok{(join_teosinte, as.character),}
+                            \DataTypeTok{stringsAsFactors=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{join_teosinte1 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(join_teosinte,}\ControlFlowTok{function}\NormalTok{(x) }
+\NormalTok{                  \{x <-}\StringTok{ }\KeywordTok{gsub}\NormalTok{(}\StringTok{"?/?"}\NormalTok{,}\StringTok{"?"}\NormalTok{,x,}\DataTypeTok{fixed=}\OtherTok{TRUE}\NormalTok{)\}))}
+\NormalTok{join_teosinte2 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(join_teosinte1,}\ControlFlowTok{function}\NormalTok{(x) }
+\NormalTok{                  \{x <-}\StringTok{ }\KeywordTok{gsub}\NormalTok{(}\StringTok{"?"}\NormalTok{,}\StringTok{"-"}\NormalTok{,x,}\DataTypeTok{fixed=}\OtherTok{TRUE}\NormalTok{)\}))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-i-create-file-with-unknown-data-1}{%
+\paragraph{Part i: Create file with unknown
+data}\label{part-i-create-file-with-unknown-data-1}}
+
+Create and write a file with all SNPs with unknown positions in the
+genome:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_unknown <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_teosinte, Chromosome }\OperatorTok{==}\StringTok{ "unknown"}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_unknown,}\StringTok{"t_Chrom_Unknown"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-ii-create-file-with-multiple-data-1}{%
+\paragraph{Part ii: Create file with multiple
+data}\label{part-ii-create-file-with-multiple-data-1}}
+
+Create and write a file with all SNPs with multiple positions in the
+genome:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_multiple <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_teosinte, Chromosome }\OperatorTok{==}\StringTok{ "multiple"}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_multiple,}\StringTok{"m_Chrom_Multiple"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-iii-create-a-file-for-each-chromosome-with-positions-in-increasing-order-and-missing-data-denoted-as-1}{%
+\paragraph{Part iii: Create a file for each chromosome with positions in
+increasing order and missing data denoted as
+``?''}\label{part-iii-create-a-file-for-each-chromosome-with-positions-in-increasing-order-and-missing-data-denoted-as-1}}
+
 Sort the join\_teosinte file into 10 new data frames, one for each
-chromosome.Order the files based on the increasing position values:
+chromosome:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{df.names <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"teosinte_chrom"}\NormalTok{, }\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{,}\DataTypeTok{sep=}\StringTok{"_"}\NormalTok{)}
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{) \{}
-\NormalTok{  d.frame <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_teosinte, Chromosome }\OperatorTok{==}\StringTok{ }\NormalTok{i)}
-  \KeywordTok{arrange}\NormalTok{(d.frame, Position)    }
+\NormalTok{  d.frame <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_teosinte1, Chromosome }\OperatorTok{==}\StringTok{ }\NormalTok{i)}
   \KeywordTok{assign}\NormalTok{(df.names[i],d.frame)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
-Change the missing data to ``?'' in the data frame:
+Order the files based on the increasing postion values:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(plyr)}
+\NormalTok{teosinte_chrom_}\DecValTok{1}\NormalTok{_s<-teosinte_chrom_}\DecValTok{1}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{1}\OperatorTok{$}\NormalTok{Position))),]}
+
+\NormalTok{teosinte_chrom_}\DecValTok{2}\NormalTok{_s<-teosinte_chrom_}\DecValTok{2}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{2}\OperatorTok{$}\NormalTok{Position))),]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: package 'plyr' was built under R version 3.6.1
+## Warning in order(as.numeric(as.character(teosinte_chrom_2$Position))): NAs
+## introduced by coercion
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_}\DecValTok{3}\NormalTok{_s<-teosinte_chrom_}\DecValTok{3}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{3}\OperatorTok{$}\NormalTok{Position))),]}
+
+\NormalTok{teosinte_chrom_}\DecValTok{4}\NormalTok{_s<-teosinte_chrom_}\DecValTok{4}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{4}\OperatorTok{$}\NormalTok{Position))),]}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## -------------------------------------------------------------------------
+## Warning in order(as.numeric(as.character(teosinte_chrom_4$Position))): NAs
+## introduced by coercion
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_}\DecValTok{5}\NormalTok{_s<-teosinte_chrom_}\DecValTok{5}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{5}\OperatorTok{$}\NormalTok{Position))),]}
+
+\NormalTok{teosinte_chrom_}\DecValTok{6}\NormalTok{_s<-teosinte_chrom_}\DecValTok{6}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{6}\OperatorTok{$}\NormalTok{Position))),]}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)
+## Warning in order(as.numeric(as.character(teosinte_chrom_6$Position))): NAs
+## introduced by coercion
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_}\DecValTok{7}\NormalTok{_s<-teosinte_chrom_}\DecValTok{7}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{7}\OperatorTok{$}\NormalTok{Position))),]}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## -------------------------------------------------------------------------
+## Warning in order(as.numeric(as.character(teosinte_chrom_7$Position))): NAs
+## introduced by coercion
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_}\DecValTok{8}\NormalTok{_s<-teosinte_chrom_}\DecValTok{8}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{8}\OperatorTok{$}\NormalTok{Position))),]}
+
+\NormalTok{teosinte_chrom_}\DecValTok{9}\NormalTok{_s<-teosinte_chrom_}\DecValTok{9}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{9}\OperatorTok{$}\NormalTok{Position))),]}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## 
-## Attaching package: 'plyr'
+## Warning in order(as.numeric(as.character(teosinte_chrom_9$Position))): NAs
+## introduced by coercion
 \end{verbatim}
 
-\begin{verbatim}
-## The following objects are masked from 'package:dplyr':
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_}\DecValTok{10}\NormalTok{_s<-teosinte_chrom_}\DecValTok{10}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_}\DecValTok{10}\OperatorTok{$}\NormalTok{Position))),]}
+\end{Highlighting}
+\end{Shaded}
 
-\begin{verbatim}
-## The following object is masked from 'package:purrr':
-## 
-##     compact
-\end{verbatim}
+Write files:
 
-Sort the join\_teosinte files to 10 new data frames, one for each
-chromosome. Order the files based on the decreasing position values:
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{1}\NormalTok{_s,}\StringTok{"t_Chrom1"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{2}\NormalTok{_s,}\StringTok{"t_Chrom2"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{3}\NormalTok{_s,}\StringTok{"t_Chrom3"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{4}\NormalTok{_s,}\StringTok{"t_Chrom4"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{5}\NormalTok{_s,}\StringTok{"t_Chrom5"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{6}\NormalTok{_s,}\StringTok{"t_Chrom6"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{7}\NormalTok{_s,}\StringTok{"t_Chrom7"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{8}\NormalTok{_s,}\StringTok{"t_Chrom8"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{9}\NormalTok{_s,}\StringTok{"t_Chrom9"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_}\DecValTok{10}\NormalTok{_s,}\StringTok{"t_Chrom10"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-iv-create-a-file-for-each-chromosome-with-positions-in-decreasing-order-and-missing-data-denoted-as---1}{%
+\paragraph{Part iv: Create a file for each chromosome with positions in
+decreasing order and missing data denoted as
+``-''}\label{part-iv-create-a-file-for-each-chromosome-with-positions-in-decreasing-order-and-missing-data-denoted-as---1}}
+
+Sort the join\_maize file into 10 new data frames, one for each
+chromosome.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{df.names <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"teosinte_chrom_de"}\NormalTok{, }\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{,}\DataTypeTok{sep=}\StringTok{"_"}\NormalTok{)}
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{) \{}
-\NormalTok{  d.frame <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_teosinte, Chromosome }\OperatorTok{==}\StringTok{ }\NormalTok{i)}
-  \KeywordTok{arrange}\NormalTok{(d.frame, Position, }\DataTypeTok{decreasing =} \OtherTok{FALSE}\NormalTok{)    }
+\NormalTok{  d.frame <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(join_teosinte2, Chromosome }\OperatorTok{==}\StringTok{ }\NormalTok{i)}
   \KeywordTok{assign}\NormalTok{(df.names[i],d.frame)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
-Change the missing data from ``?'' to ``-'':
+Order the files based on the decreasing position values:
 
-A file with all SNPs with unknown positions in the genome:
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_de_}\DecValTok{1}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{1}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{1}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
 
-A file with all SNPs with multiple positions in the genome:
+\NormalTok{teosinte_chrom_de_}\DecValTok{2}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{2}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{2}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(teosinte_chrom_de_2$Position)), :
+## NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_de_}\DecValTok{3}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{3}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{3}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+
+\NormalTok{teosinte_chrom_de_}\DecValTok{4}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{4}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{4}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(teosinte_chrom_de_4$Position)), :
+## NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_de_}\DecValTok{5}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{5}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{5}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+
+\NormalTok{teosinte_chrom_de_}\DecValTok{6}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{6}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{6}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(teosinte_chrom_de_6$Position)), :
+## NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_de_}\DecValTok{7}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{7}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{7}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(teosinte_chrom_de_7$Position)), :
+## NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_de_}\DecValTok{8}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{8}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{8}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+
+\NormalTok{teosinte_chrom_de_}\DecValTok{9}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{9}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{9}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in order(as.numeric(as.character(teosinte_chrom_de_9$Position)), :
+## NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{teosinte_chrom_de_}\DecValTok{10}\NormalTok{<-}\StringTok{ }\NormalTok{teosinte_chrom_de_}\DecValTok{10}\NormalTok{[}\KeywordTok{order}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(teosinte_chrom_de_}\DecValTok{10}\OperatorTok{$}\NormalTok{Position)), }\DataTypeTok{decreasing=}\OtherTok{TRUE}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+Write files
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{1}\NormalTok{,}\StringTok{"t_Chrom1_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{2}\NormalTok{,}\StringTok{"t_Chrom2_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{3}\NormalTok{,}\StringTok{"t_Chrom3_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{4}\NormalTok{,}\StringTok{"t_Chrom4_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{5}\NormalTok{,}\StringTok{"t_Chrom5_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{6}\NormalTok{,}\StringTok{"t_Chrom6_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{7}\NormalTok{,}\StringTok{"t_Chrom7_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{8}\NormalTok{,}\StringTok{"t_Chrom8_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{9}\NormalTok{,}\StringTok{"t_Chrom9_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{write.table}\NormalTok{(teosinte_chrom_de_}\DecValTok{10}\NormalTok{,}\StringTok{"t_Chrom10_de"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{row.names=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{part-iii-data-visualization}{%
 \subsection{Part III: Data
@@ -581,12 +886,45 @@ Visualization}\label{part-iii-data-visualization}}
 \hypertarget{snps-per-chromosom}{%
 \subsubsection{SNPs per chromosom}\label{snps-per-chromosom}}
 
+ggplot(data = join\_maize) + geom\_point(mapping=aes(x=SNP\_ID,
+y=Chromosome))
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ join_maize) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{mapping=}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SNP_ID, }\DataTypeTok{y=}\NormalTok{Chromosome))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Workflow_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ join_teosinte) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{mapping=}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{SNP_ID, }\DataTypeTok{y=}\NormalTok{Chromosome))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Workflow_files/figure-latex/unnamed-chunk-37-1.pdf}
+
 \hypertarget{missing-data-and-amount-of-heterozygosity}{%
 \subsubsection{Missing data and amount of
 heterozygosity}\label{missing-data-and-amount-of-heterozygosity}}
 
 \hypertarget{your-own-visualization}{%
 \subsubsection{"Your own visualization}\label{your-own-visualization}}
+
+\hypertarget{questions-comments-confusions}{%
+\paragraph{Questions, Comments,
+Confusions:}\label{questions-comments-confusions}}
+
+\begin{itemize}
+\item
+  I had a hard time getting R to evaluate my numbers as the string of
+  numbers rather than arranging by the position on of the numbers.
+  \textgreater{} E.g. 100 11 11 100 123 vs 123
+\item
+  I am also fighting an error in my R markdown file saying it won't
+  execute based on
+\end{itemize}
 
 
 \end{document}

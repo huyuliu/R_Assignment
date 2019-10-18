@@ -400,11 +400,38 @@ write.table(teosinte_chrom_de_10,"t_Chrom10_de", sep="\t", row.names=FALSE)
 
 ## Part III: Data Visualization
 
-### SNPs per chromosom
+### SNPs per chromosome
 
+Plotting the number of SNPs for each chromosome for the Maize groups:
+
+```{r}
+plot_maize<- filter(join_maize, Chromosome %in% c(1:10))
+ggplot(data = plot_maize) + geom_point(mapping=aes(x=SNP_ID, y=Chromosome))
+```
+
+
+Plotting the number of SNPs for each chromosome for the Teosinte groups:
+```{r}
+plot_teosinte<- filter(join_teosinte, Chromosome %in% c(1:10))
+ggplot(data = plot_teosinte) + geom_point(mapping=aes(x=SNP_ID, y=Chromosome, color= Chromosome))
+```
+
+I colored it by the chromosome color. I know that it does not add additional layer of data interpretation, but it helps me interpret the data without making additional errors. As a dyslexic individual, this helps me clearly see the distribution of each chromosome and helps to keep my eyes from jumping lines, misinterpreting the data. 
+ 
 
 ### Missing data and amount of heterozygosity
 
 
 
 ### "Your own visualization
+
+#### Questions, Comments, Confusions:
+  - I had a hard time getting R to evaluate my numbers as the string of numbers rather than arranging by the position on of the numbers. 
+    > E.g. 
+      100     11
+      11      100
+      123  vs 123
+      
+  - I am also fighting an error in my R markdown file saying it won't execute based on errors from line 156-183. I have tried rectifying this multiple times but have not been able to figure out why. 
+  
+  - I am still with grasping the vocabulary with what is a vector, object, list, string, character, etc., and when to use them appropriately for efficient manners. This is an area that I could still use improvement on.
